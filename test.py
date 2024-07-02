@@ -1,5 +1,6 @@
 from p5 import *
 import numpy as np
+from lib import *
 
 sudoku = np.array([
     [5, 3, 0, 0, 7, 0, 0, 0, 0],
@@ -23,39 +24,34 @@ sudoku = np.array([
 #     [0, 0, 0, 4, 1, 9, 0, 0, 5],
 #     [0, 0, 0, 0, 8, 0, 0, 7, 9]
 # ]
+
 width = 650
 height = 650
 DIM = 9
+
+# sudoku_cell = []
+# sudoku_cell = create_sudoku(width,height,DIM)
 
 def setup():
     size(width,height)
     no_stroke
     background(200)
 
+    ## Setup Sudoku
+    draw_main(width,height,DIM)
+    create_sudoku(sudoku)
+
+
 def draw(): 
     background('#ECECEC')
-    drawSudoku();
+    # print(sudoku_cell)
 
-def drawSudoku():
-  fontRegular = loadFont('assests/R.ttf')
-  w = width / DIM;
-  h = height / DIM;
-  
-  for j in range(DIM):
-    for i in range(DIM):
-      rect(i * w,j * h,w,h);
-      if (i%3==0):
-        strokeWeight(3)
-        line(i*w,0,i*w,height)
-        line(0,i*h,width,i*h)
-      strokeWeight(1)
-  fill('black');
-  for j in range(DIM):
-    for i in range(DIM):
-        textFont(fontRegular,28)
-        if(sudoku[i][j] != 0):
-            text(str(sudoku[i][j]),(i*w)+25,(j*h)+20)
-  fill('white');
+    ## Draw Sudoku
+    draw_sudoku()
+
+
+
+
 
 # p5 supports different backends to render sketches,
 # "vispy" for both 2D and 3D sketches & "skia" for 2D sketches
