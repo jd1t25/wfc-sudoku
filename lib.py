@@ -13,7 +13,7 @@ def draw_main(w: int,h: int ,d: int, size: int=28,path: any='assests/R.ttf'):
     FONT_REGULAR = loadFont(path)
     textFont(FONT_REGULAR,size)
 
-def create_sudoku(s):
+def create_sudoku(sudoku_parameter):
   w = width / DIM
   h = height / DIM
   cell = []
@@ -26,7 +26,7 @@ def create_sudoku(s):
 
   global SUDOKU_POS,sudoku
   SUDOKU_POS = cell
-  sudoku = s
+  sudoku = sudoku_parameter
 
 # SUDOKU_POS = create_sudoku()
 

@@ -13,6 +13,7 @@ sudoku = np.array([
     [0, 0, 0, 4, 1, 9, 0, 0, 5],
     [0, 0, 0, 0, 8, 0, 0, 7, 9]
 ])
+
 # easy_sudoku = [
 #     [5, 3, 0, 0, 7, 0, 0, 0, 0],
 #     [6, 0, 0, 1, 9, 5, 0, 0, 0],
@@ -28,9 +29,35 @@ sudoku = np.array([
 width = 650
 height = 650
 DIM = 9
+entropy = {}
 
 # sudoku_cell = []
 # sudoku_cell = create_sudoku(width,height,DIM)
+
+def find_entropy():
+
+    ## Fill first all entropy values with default
+    ## Create tuple as key and fill values with list containing 1 to 9
+    entropy = {(i,j):list(range(1,10)) for i in range(9) for j in range(9)}
+    # print(entropy)
+
+    for i in range(9):
+        for j in range(9):
+            if sudoku[i, j] == 0:
+                # Get numbers in current row and column
+                row = set(sudoku[i, :])
+                col = set(sudoku[:, j])
+                
+                # Get numbers in current 3x3 sub-grid
+                subgrid_row_start = (i // 3) * 3
+                subgrid_col_start = (j // 3) * 3
+                subgrid = set(sudoku[subgrid_row_start:subgrid_row_start + 3, subgrid_col_start:subgrid_col_start + 3].flatten())
+                
+                # Subtract numbers in row, column, and sub-grid from possible numbers
+                total = row.union(col).union(subgrid)
+                entropy[(i, j)] = list(set(entropy[(i, j)]) - total)
+
+    print(entropy)
 
 def setup():
     size(width,height)
@@ -40,6 +67,7 @@ def setup():
     ## Setup Sudoku
     draw_main(width,height,DIM)
     create_sudoku(sudoku)
+    find_entropy()
 
 
 def draw(): 
@@ -48,10 +76,6 @@ def draw():
 
     ## Draw Sudoku
     draw_sudoku()
-
-
-
-
 
 # p5 supports different backends to render sketches,
 # "vispy" for both 2D and 3D sketches & "skia" for 2D sketches
